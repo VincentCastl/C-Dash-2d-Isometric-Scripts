@@ -1,0 +1,113 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+
+[RequireComponent(typeof(Rigidbody2D))]
+public class PlayerScript : MonoBehaviour
+{
+
+    Rigidbody2D rb2D;
+
+
+    [Header("Variables")]
+    [Tooltip("Direction in Vector2 on which character is actually moving")]
+    [SerializeField]Vector2 moveDir;
+    [Tooltip("Speed of character")]
+    public float movementSpeed;
+    [Tooltip("Is the player using actually Keyboard?")]
+    bool isUsingWASD = false;
+    //self explainatory  /false moving oposing directoin /true moving direction described
+    bool isMovingRight = false;
+    bool isMovingUp = false;
+
+    Animator animations;
+
+    void Start()
+    {
+        rb2D = GetComponent<Rigidbody2D>();
+        animations = GetComponent<Animator>();
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+
+    }
+
+    private void FixedUpdate()
+    {
+        Movement();
+    }
+
+    #region Movement
+    void Movement()
+    {
+        if (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.UpArrow) || Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.LeftArrow) || Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.RightArrow) || Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.DownArrow))
+        {
+            isUsingWASD = true;
+        }
+        else { isUsingWASD = false;}
+
+
+        //move vectors x,y
+        float moveX = 0f;
+        float moveY = 0f;
+
+        if (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.UpArrow))
+        {
+            moveY = +1f;
+         //   moveY = +0.55f;
+            animations.SetInteger("MoveStance", 2);
+        }
+        if (Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.LeftArrow))
+        {
+            moveX = -1f;
+        //    moveY = +0.55f;
+            isMovingRight = false;
+            animations.SetInteger("MoveStance", 1);
+        }
+        if (Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.RightArrow))
+        {
+        //    moveY = -0.55f;
+            moveX = +1;
+            isMovingRight = true;
+            animations.SetInteger("MoveStance", 3);
+        }
+        if (Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.DownArrow))
+        {
+        //    moveY = -0.55f;
+            moveY = -1f;
+            isMovingUp = false;
+            animations.SetInteger("MoveStance", 4);
+        }
+        if((Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.DownArrow))&& (Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.LeftArrow)))
+        {
+            animations.SetInteger("MoveStance", 5);
+            moveY = -.45f;
+        }
+        if ((Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.RightArrow)) && (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.UpArrow)))
+        {
+            animations.SetInteger("MoveStance", 6);
+            moveY = +.55f;
+        }
+        if ((Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.RightArrow)) && (Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.DownArrow)))
+        {
+            animations.SetInteger("MoveStance", 7);
+            moveY = -.45f;
+        }
+        if ((Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.LeftArrow)) && (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.UpArrow)))
+        {
+            animations.SetInteger("MoveStance", 8);
+            moveY = +.55f;
+        }
+        //animation set
+
+        animations.SetBool("isMoving", isUsingWASD);
+
+        moveDir = new Vector3(moveX, moveY).normalized;
+    
+        rb2D.position += moveDir * movementSpeed * Time.deltaTime;
+    }
+    #endregion
+}
