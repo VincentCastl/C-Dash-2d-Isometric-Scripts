@@ -1,0 +1,35 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class DepthManager : MonoBehaviour
+{
+    //manages the depth of objects
+    public float ZOffset;
+
+    Rigidbody2D rb;
+
+    SpriteRenderer sr2D;
+
+
+    private void Awake()
+    {
+        rb = GetComponent<Rigidbody2D>();
+        sr2D = gameObject.GetComponent<SpriteRenderer>();
+        sr2D.sortingOrder = (int)((transform.position.y + ZOffset) * -100);
+    }
+
+    private void FixedUpdate()
+    {
+        TransformSetter();
+    }
+    private void TransformSetter()
+    {
+
+        if (sr2D)
+        {
+            if (transform.hasChanged)
+                sr2D.sortingOrder = (int)((transform.position.y + ZOffset) * -100);
+        }
+    }
+}
