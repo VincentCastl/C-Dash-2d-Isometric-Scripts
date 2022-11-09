@@ -12,7 +12,7 @@ The Interaction script allows you to set Asset Objects to interect with by Press
 
 ![image](https://user-images.githubusercontent.com/117072680/199233352-e081d95c-41c3-4f23-a96f-35745960f85f.png)
 
-Through the Save/Load Script - Pressing Save will save your locations, whilst Load will add you back where the last Save position data was added.
+Through the Save/Load Script called SaveManager3 - Pressing Save will save your locations, whilst Load will add you back where the last Save position data was added.
 In order to implement it into a menu, you need make assets and scripts so those can be referecened.
 
 ![image](https://user-images.githubusercontent.com/117072680/200930408-fc0532c2-c398-4ff6-a0ac-fe510e72d7c0.png)
