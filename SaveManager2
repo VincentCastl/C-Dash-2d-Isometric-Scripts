@@ -1,0 +1,36 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class SaveManager : MonoBehaviour
+{
+    public GameObject player; // The player GameObject
+
+    private void Start()
+    {
+        // If either of the PlayerPrefs have a value other than 0, load the game at the start
+        if (PlayerPrefs.GetFloat("PosX") != 0 || PlayerPrefs.GetFloat("PosY") != 0) { Load(); }
+    }
+
+    private void Update()
+    {
+        // Use this if you want to save the position every frame instead of clicking the "Save" button every time
+        // Save();
+    }
+
+    // Saves the position of the player and sets it into a PlayerPrefs to load later
+    public void Save()
+    {
+        var posX = player.transform.position.x;
+        var posY = player.transform.position.y;
+        PlayerPrefs.SetFloat("PosX", posX);
+        PlayerPrefs.SetFloat("PosY", posY);
+        PlayerPrefs.Save();
+    }
+
+    // Loads the player position with PlayerPrefs
+    public void Load()
+    {
+        player.transform.position = new Vector2(PlayerPrefs.GetFloat("PosX"), PlayerPrefs.GetFloat("PosY"));
+    }
+}
